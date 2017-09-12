@@ -5,18 +5,49 @@ OS_var=$(uname)
 distro_var=$(cat /etc/*-release | head -n1)
 
 
-#######################
-#ssh download function
-#######################
+
+
+
+##############################
+#ssh download check function
+##############################
 function ssh_download ()
 
 {
 
 
+if [[ $? != 0 ]]; then 
 
+if [[ "$OS_var" == "Linux" ]]; then
 
+if [[ "$distro_var" =~ ..Ubuntu ]]; then
 cd ~
 sudo apt-get install openssh-server
+sudo service ssh start
+service ssh status | grep active
+read
+clear
+
+elif [[ "$distro_var" =~ CentOS.. ]]; then
+sudo yum install openssh-server
+sudo service ssh start
+service ssh status | grep active
+
+elif [[ "$distro_var" =~ openSUSE ]]; then
+sudo zypper install openssh-server
+sudo service ssh start
+sudo service ssh status | grep active
+
+
+
+else
+echo "Sorry you will need to install ssh manually"
+echo
+echo
+read
+echo "Installtion may vary depending on distro."
+exit
+fi
 
 
 
@@ -60,7 +91,7 @@ read
 cd ~
 sudo apt-get update && sudo apt-get upgrade
 sudo apt-get install git
-
+clear
 echo " A folder named github will now be created in the Documents directory. It is recommended to use this folder to organize all your github projects and git clones. Hit enter to continue.."
 read
 cd Documents 
@@ -77,7 +108,7 @@ mkdir github
 
 
 #####################
-#
+#Selection Menu
 #####################
 
 
@@ -89,11 +120,10 @@ do
 
 echo " Please your distro that you wish to install Github on.. "
 
-       echo " 1 ~Debian-based~ "
-            " 2 ~RedHat-based~ "
-	    " 3 ~OpenSuse-based~ "
-	    " 4 ~Arch-based~ "
-
+       echo " 1. ~Debian-based~ "
+            " 2. ~RedHat-based~ "
+            " 3. ~OpenSUSE~     "
+            " 4. ~ArchLinux~    "
 
 
 
