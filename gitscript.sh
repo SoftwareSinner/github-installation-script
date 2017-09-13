@@ -7,6 +7,44 @@ YUM_CMD=$(which yum)
 APT_GET_CMD=$(which apt-get)
 ZYPPER_CMD=$(which zypper)
 PACMAN_CMD=$(which pacman)
+####################################
+#script art
+###################################
+function git_art ()
+
+{
+
+echo "                                                                         
+           MMM.           .MMM                                          
+           MMMMMMMMMMMMMMMMMMM
+           MMMMMMMMMMMMMMMMMMM      __________________________________________
+          MMMMMMMMMMMMMMMMMMMMM    |                                          |
+         MMMMMMMMMMMMMMMMMMMMMMM   | Welcome to the github installation script|
+        MMMMMMMMMMMMMMMMMMMMMMMM   |_   ______________________________________|
+        MMMM::- -:::::::- -::MMMM    |/
+         MM~:~   ~:::::~   ~:~MM
+    ~  MMMMM::. .:::+:::. .::MMMMM ~ 
+          .MM::::: ._. :::::MM.
+             MMMM;:::::;MMMM
+      -MM        MMMMMMM
+      ^  M+     MMMMMMMMM
+          MMMMMMM MM MM MM
+               MM MM MM MM
+               MM MM MM MM
+            .~~MM~MM~MM~MM~~.
+         ~~~~MM:~MM~~~MM~:MM~~~~
+        ~~~~~~~~~~~~~~~~~~~~~~~~
+         ~~~~~~~~~~~~~~~~~~~~~~~~"
+                                                                
+
+
+echo " Please hit enter to proceed.. "
+
+read
+
+}
+
+
 ########################################
 #echo spacer
 #######################################
@@ -100,6 +138,7 @@ mkdir github
 #####################
 #Script Functions
 ####################
+git_art
 distro_git
 ssh_download 
 git_ssh 
