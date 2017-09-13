@@ -28,14 +28,26 @@ if [[ ! -z $YUM_CMD ]]; then
 sudo yum install openssh-server
 sudo service ssh start
 sudo service ssh status | grep active 
+clear
 elif [[ ! -z $APT_GET_CMD ]]; then
 sudo apt-get install openssh-server
 sudo service ssh start
 sudo service ssh status | grep active
+clear
 elif [[ ! -z $ZYPPER_CMD ]]; then
 sudo zypper refresh
 sudo zypper up
+clear
 sudo zypper install openssh-server
+sudo service ssh start
+sudo service ssh status | grep active
+clear
+elif [[ ! -z $PACMAN_CMD ]]; then
+sudo pacman -Syy
+sudo pacman install openssh-server
+sudo service ssh start
+sudo service ssh status | grep active
+clear
 else
 echo "error can't install ssh...Please install manually"
 exit 1;
@@ -46,9 +58,6 @@ fi
 ##############################
 function git_ssh ()
 {
- 
-while [ -z "$select" ]
-do
 echo " Now we will create a folder named .ssh in your home directory and generate a public ssh key for ssh cloning from github to your local machine. "
 read
 clear
@@ -58,10 +67,11 @@ echo " Please hit enter multiple times as the key generating prompts are running
 echo_spacer
 ssh-keygen -t rsa
 clear
+}
 ####################
 # Distro Functions
 ####################
-function debian_git ()
+function distro_git ()
 {
 echo " Hit enter to install Github. This will install in the home directory and create a folder named github in the documents directory."
 read
@@ -70,10 +80,12 @@ if [[ ! -z $YUM_CMD ]]; then
 sudo yum install git
 elif [[ ! -z $APT_GET_CMD ]]; then
 sudo apt-get install git
-elif [[ ! -z $OTHER_CMD ]]; then
-$OTHER_CMD <proper arguments>
+elif [[ ! -z $ZYPPER_CMD ]]; then
+sudo zypper install git
+elif [[ ! -z $PACMAN_CMD ]]; then
+sudo pacman install git
 else
-echo "error can't install package $PACKAGE"
+echo "error cannot find distro..."
 exit 1;
 fi
 sudo apt-get update && sudo apt-get upgrade
@@ -81,24 +93,16 @@ sudo apt-get install git
 clear
 echo " A folder named github will now be created in the Documents directory. It is recommended to use this folder to organize all your github projects and git clones. Hit enter to continue.."
 read
+cd ~
 cd Documents 
 mkdir github
+}
 #####################
-#Selection Menu
-#####################
-while [ -z "$choice" ]
-do
-echo " Please your distro that you wish to install Github on.. "
-
-       echo " 1. ~Debian-based~ "
-            " 2. ~RedHat-based~ "
-            " 3. ~OpenSUSE~     "
-            " 4. ~ArchLinux~    "
-read -r choice;
-done
-case $choice in
-	1) 
-
+#Script Functions
+####################
+distro_git
+ssh_download 
+git_ssh 
 
 
 
