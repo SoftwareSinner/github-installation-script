@@ -52,6 +52,31 @@ echo
 echo
 echo
 }
+#############################################
+#ssh Auth with Github
+############################################
+function gitssh_auth ()
+{
+read -p "GitHub Username: " uname
+read -s -p "GitHub Password: " passwd
+if [[ "$uname" == "" || "$passwd" == "" ]]; then
+echo -e "\n\nCan't set up your GitHub SSH keys without authorization."
+exit 1
+fi
+token=$(curl -u $uname:$passwd --silent -d '{"scopes":["user"]}' "https://api.github.com/authorizations" | grep -o '[0-9A-Fa-f]\{40\}')
+echo -e "\n"
+read -p "Generate new (and backup any current) SSH keys? (y):" createkey
+if [[ "${createkey:=y}" == "y" ]]; then
+echo -e "Generating new SSH keys...\n"
+read -p "Enter your email address: " email
+mkdir -p ~/.ssh/key_backup && mv ~/.ssh/id_rsa* ~/.ssh/key_backup
+echo -e "\n\n\n" | ssh-keygen -t rsa -N "" -C ${email:=null@example.com}
+fi
+sshkey=`cat ~/.ssh/id_rsa.pub`
+curl -X POST -H "Content-type: application/json" -d "{\"title\": \"$email\",\"key\": \"$sshkey\"}" "https://api.github.com/user/keys?access_token=$token"
+echo -e "\nAll Done!"
+exit 0
+}
 ##############################
 #ssh download check function
 ##############################
@@ -86,6 +111,7 @@ else
 echo "error can't install ssh...Please install manually"
 exit 1;
 fi
+gitssh_auth
 }
 #######################################
 #Brew for Mac
@@ -111,21 +137,6 @@ fi
 else
 brew update
 fi
-}
-##############################
-#SSH setup function for Github
-##############################
-function git_ssh ()
-{
-echo " Now we will create a folder named .ssh in your home directory and generate a public ssh key for ssh cloning from github to your local machine. "
-read
-clear
-cd ~
-cd .ssh
-echo " Please hit enter multiple times as the key generating prompts are running. No need to enter a paraphrase it will generate one for you."
-echo_spacer
-ssh-keygen -t rsa
-clear
 }
 ####################
 # Distro Functions
@@ -168,7 +179,6 @@ mkdir github
 git_art
 distro_git
 ssh_download 
-git_ssh 
 install_brew_osx
 brew_check
 
