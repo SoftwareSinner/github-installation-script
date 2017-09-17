@@ -61,7 +61,7 @@ KEY=$(sudo cat ~/.ssh/id_rsa.pub)
 echo "Here is your KEY var: ${KEY}"
 read -p "GitHub Username: " USERNAME
 read -p "Please enter a title for you ssh key: " TITLE
-curl --user "${USERNAME}" -X POST --data '{ "title": "$TITLE", "key": "$KEY" }' https://api.github.com/user/keys
+curl --user "\"${USERNAME}"\" -X POST --data '{ "\"title"\": "\"$TITLE"\", "\"key"\": "\"$KEY"\" }' https://api.github.com/user/keys
 }
 #############################
 #ssh download check function
@@ -165,6 +165,6 @@ mkdir -p github
 git_art
 distro_git
 ssh_download 
-install_brew_osx
-brew_check
+#install_brew_osx
+#brew_check
 
