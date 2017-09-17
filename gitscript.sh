@@ -87,6 +87,31 @@ echo "error can't install ssh...Please install manually"
 exit 1;
 fi
 }
+#######################################
+#Brew for Mac
+#######################################
+function install_brew_osx() 
+{
+echo "Now installing brew for OSX"
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+}
+####################
+function brew_check()
+{
+which brew
+if [[ $? != 0 ]]; then
+if [[ "$OS_var" == "Darwin" ]]; then
+install_brew_osx
+brew install git
+cd ~
+cd Documents 
+mkdir github
+clear
+fi
+else
+brew update
+fi
+}
 ##############################
 #SSH setup function for Github
 ##############################
@@ -144,6 +169,6 @@ git_art
 distro_git
 ssh_download 
 git_ssh 
-
-
+install_brew_osx
+brew_check
 
