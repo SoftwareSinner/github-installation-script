@@ -13,7 +13,7 @@ PACMAN_CMD=$(which pacman)
 function git_art ()
 
 {
-
+clear
 echo "                                                                         
            MMM.           .MMM                                          
            MMMMMMMMMMMMMMMMMMM
@@ -39,12 +39,8 @@ echo "
 
 
 echo " Please hit enter to proceed.. "
-
 read
-
 }
-
-
 ########################################
 #echo spacer
 #######################################
@@ -115,19 +111,25 @@ echo " Hit enter to install Github. This will install in the home directory and 
 read
 cd ~
 if [[ ! -z $YUM_CMD ]]; then
+sudo yum install update && sudo yum install upgrade
 sudo yum install git
+clear
 elif [[ ! -z $APT_GET_CMD ]]; then
+sudo apt-get update && sudo apt-get upgrade
 sudo apt-get install git
+clear
 elif [[ ! -z $ZYPPER_CMD ]]; then
+sudo zypper up
 sudo zypper install git
+clear
 elif [[ ! -z $PACMAN_CMD ]]; then
+sudo pacman -Syu
 sudo pacman install git
+clear
 else
 echo "error cannot find distro..."
 exit 1;
 fi
-sudo apt-get update && sudo apt-get upgrade
-sudo apt-get install git
 clear
 echo " A folder named github will now be created in the Documents directory. It is recommended to use this folder to organize all your github projects and git clones. Hit enter to continue.."
 read
