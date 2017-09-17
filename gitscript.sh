@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 #OS_var=$(uname)
 #distro_var=$(cat /etc/*-release | head -n1)
 YUM_CMD=$(which yum)
@@ -57,27 +56,14 @@ echo
 ############################################
 function gitssh_auth ()
 {
-read -p "GitHub Username: " uname
-read -s -p "GitHub Password: " passwd
-if [[ "$uname" == "" || "$passwd" == "" ]]; then
-echo -e "\n\nCan't set up your GitHub SSH keys without authorization."
-exit 1
-fi
-token=$(curl -u $uname:$passwd --silent -d '{"scopes":["user"]}' "https://api.github.com/authorizations" | grep -o '[0-9A-Fa-f]\{40\}')
-echo -e "\n"
-read -p "Generate new (and backup any current) SSH keys? (y):" createkey
-if [[ "${createkey:=y}" == "y" ]]; then
-echo -e "Generating new SSH keys...\n"
-read -p "Enter your email address: " email
-mkdir -p ~/.ssh/key_backup && mv ~/.ssh/id_rsa* ~/.ssh/key_backup
-echo -e "\n\n\n" | ssh-keygen -t rsa -N "" -C ${email:=null@example.com}
-fi
-sshkey=`cat ~/.ssh/id_rsa.pub`
-curl -X POST -H "Content-type: application/json" -d "{\"title\": \"$email\",\"key\": \"$sshkey\"}" "https://api.github.com/user/keys?access_token=$token"
-echo -e "\nAll Done!"
-exit 0
+sudo ssh-keygen -t rsa
+KEY=$(sudo cat ~/.ssh/id_rsa.pub)
+echo "Here is your KEY var: ${KEY}"
+read -p "GitHub Username: " USERNAME
+read -p "Please enter a title for you ssh key: " TITLE
+curl --user "${USERNAME}" -X POST --data '{ "title": "$TITLE", "key": "$KEY" }' https://api.github.com/user/keys
 }
-##############################
+#############################
 #ssh download check function
 ##############################
 function ssh_download ()
@@ -131,7 +117,7 @@ install_brew_osx
 brew install git
 cd ~
 cd Documents 
-mkdir github
+mkdir -p github
 clear
 fi
 else
@@ -171,7 +157,7 @@ echo " A folder named github will now be created in the Documents directory. It 
 read
 cd ~
 cd Documents 
-mkdir github
+mkdir -p github
 }
 #####################
 #Script Functions
