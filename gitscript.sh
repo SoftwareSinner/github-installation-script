@@ -6,6 +6,7 @@ YUM_CMD=$(which yum)
 APT_GET_CMD=$(which apt-get)
 ZYPPER_CMD=$(which zypper)
 PACMAN_CMD=$(which pacman)
+FEDORA_CMD=$(which dnf)
 ####################################
 #script art
 ###################################
@@ -73,30 +74,30 @@ if [[ ! -z $YUM_CMD ]]; then
 sudo yum install openssh-server
 sudo service ssh start
 sudo service ssh status | grep active 
-clear
 elif [[ ! -z $APT_GET_CMD ]]; then
 sudo apt-get install openssh-server
 sudo service ssh start
 sudo service ssh status | grep active
-clear
 elif [[ ! -z $ZYPPER_CMD ]]; then
 sudo zypper refresh
 sudo zypper up
-clear
 sudo zypper install openssh-server
 sudo service ssh start
 sudo service ssh status | grep active
-clear
 elif [[ ! -z $PACMAN_CMD ]]; then
 sudo pacman -Syy
-sudo pacman install openssh-server
+sudo pacman -Sy openssh-server
 sudo service ssh start
 sudo service ssh status | grep active
-clear
+elif [[ ! -z $FEDORA_CMD ]]; then
+sudo dnf install openssh-server
+sudo service ssh start
+sudo service ssh status | grep active
 else
 echo "error can't install ssh...Please install manually"
 exit 1;
 fi
+clear
 gitssh_auth
 }
 #######################################
@@ -137,26 +138,27 @@ cd ~
 if [[ ! -z $YUM_CMD ]]; then
 sudo yum install update && sudo yum install upgrade
 sudo yum install git
-clear
 sudo yum install jq
 clear
 elif [[ ! -z $APT_GET_CMD ]]; then
 sudo apt-get update && sudo apt-get upgrade
 sudo apt-get install git
-clear
 sudo apt-get install jq
 clear
 elif [[ ! -z $ZYPPER_CMD ]]; then
 sudo zypper up
 sudo zypper install git
-clear
 sudo zypper install jq
 clear
 elif [[ ! -z $PACMAN_CMD ]]; then
 sudo pacman -Syu
-sudo pacman install git
+sudo pacman -Sy git
+sudo pacman -Sy jq
 clear
-sudo pacman install jq
+elif [[ ! -z $FEDORA_CMD ]]; then
+dnf update
+dnf install git
+dnf install jq
 clear
 else
 echo "error cannot find distro..."
