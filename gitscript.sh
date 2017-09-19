@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#OS_var=$(uname)
-#distro_var=$(cat /etc/*-release | head -n1)
+OS_var=$(uname)
 YUM_CMD=$(which yum)
 APT_GET_CMD=$(which apt-get)
 ZYPPER_CMD=$(which zypper)
@@ -108,26 +107,7 @@ function install_brew_osx()
 echo "Now installing brew for OSX"
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 }
-####################
-#brew check
 ######################
-function brew_check()
-{
-which brew
-if [[ $? != 0 ]]; then
-if [[ "$OS_var" == "Darwin" ]]; then
-install_brew_osx
-brew install git
-cd ~
-cd Documents 
-mkdir -p github
-clear
-fi
-else
-brew update
-fi
-}
-####################
 # Distro Functions
 ####################
 function distro_git ()
@@ -155,12 +135,15 @@ elif [[ ! -z $FEDORA_CMD ]]; then
 dnf update
 dnf install git
 dnf install jq
+elif [[ "$OS_var" == "Darwin" ]]; then
+install_brew_osx
+brew install git
 else
 echo "error cannot find distro..."
 exit 1;
 fi
 clear
-echo " A folder named github will now be created in the Documents directory. It is recommended to use this folder to organize all your github projects and git clones. Hit enter to continue.."
+echo " A folder named github will now be created in the Documents directory. It is recommendedto use this folder to organize all your github projects and git clones. Hit enter to continue.."
 read
 cd ~
 cd Documents 
