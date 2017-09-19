@@ -57,9 +57,10 @@ echo
 ############################################
 function gitssh_auth ()
 {
-sudo ssh-keygen -t rsa
+ssh-keygen -t rsa
 KEY=$(sudo cat ~/.ssh/id_rsa.pub)
 echo "Here is your KEY var: ${KEY}"
+clear
 read -p "GitHub Username: " USERNAME
 read -p "Please enter a title for you ssh key: " TITLE
 jq -n --arg t "$TITLE" --arg k "$KEY" '{title: $t, key: $k}' | curl --user "$USERNAME" -X POST --data @- https://api.github.com/user/keys
@@ -72,8 +73,8 @@ function ssh_download ()
 echo " Checking distro and installing ssh..."
 if [[ ! -z $YUM_CMD ]]; then
 sudo yum install openssh-server
-sudo service ssh start
-sudo service ssh status | grep active 
+sudo systemctl enable sshd.service
+sudo systemctl status sshd.service | grep active
 elif [[ ! -z $APT_GET_CMD ]]; then
 sudo apt-get install openssh-server
 sudo service ssh start
@@ -90,14 +91,13 @@ sudo pacman -Sy openssh-server
 sudo service ssh start
 sudo service ssh status | grep active
 elif [[ ! -z $FEDORA_CMD ]]; then
-sudo dnf install openssh-server
-sudo service ssh start
-sudo service ssh status | grep active
+sudo dnf install -y openssh-server
+sudo systemctl enable sshd.service
+sudo systemctl status sshd.service | grep active
 else
 echo "error can't install ssh...Please install manually"
 exit 1;
 fi
-clear
 gitssh_auth
 }
 #######################################
@@ -132,34 +132,29 @@ fi
 ####################
 function distro_git ()
 {
-echo " Hit enter to install Github. This will install in the home directory and create a folder named github in the documents directory."
+echo " Hit enter to install Github. This will install in the home directory."
 read
 cd ~
 if [[ ! -z $YUM_CMD ]]; then
 sudo yum install update && sudo yum install upgrade
 sudo yum install git
 sudo yum install jq
-clear
 elif [[ ! -z $APT_GET_CMD ]]; then
 sudo apt-get update && sudo apt-get upgrade
 sudo apt-get install git
 sudo apt-get install jq
-clear
 elif [[ ! -z $ZYPPER_CMD ]]; then
 sudo zypper up
 sudo zypper install git
 sudo zypper install jq
-clear
 elif [[ ! -z $PACMAN_CMD ]]; then
 sudo pacman -Syu
 sudo pacman -Sy git
 sudo pacman -Sy jq
-clear
 elif [[ ! -z $FEDORA_CMD ]]; then
 dnf update
 dnf install git
 dnf install jq
-clear
 else
 echo "error cannot find distro..."
 exit 1;
