@@ -61,7 +61,7 @@ KEY=$(sudo cat ~/.ssh/id_rsa.pub)
 echo "Here is your KEY var: ${KEY}"
 read -p "GitHub Username: " USERNAME
 read -p "Please enter a title for you ssh key: " TITLE
-curl --user "\"${USERNAME}"\" -X POST --data '{ "\"title"\": "\"$TITLE"\", "\"key"\": "\"$KEY"\" }' https://api.github.com/user/keys
+jq -n --arg t "$TITLE" --arg k "$KEY" '{title: $t, key: $k}' | curl --user "$USERNAME" -X POST --data @- https://api.github.com/user/keys
 }
 #############################
 #ssh download check function
@@ -108,6 +108,8 @@ echo "Now installing brew for OSX"
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 }
 ####################
+#brew check
+######################
 function brew_check()
 {
 which brew
@@ -136,17 +138,25 @@ if [[ ! -z $YUM_CMD ]]; then
 sudo yum install update && sudo yum install upgrade
 sudo yum install git
 clear
+sudo yum install jq
+clear
 elif [[ ! -z $APT_GET_CMD ]]; then
 sudo apt-get update && sudo apt-get upgrade
 sudo apt-get install git
+clear
+sudo apt-get install jq
 clear
 elif [[ ! -z $ZYPPER_CMD ]]; then
 sudo zypper up
 sudo zypper install git
 clear
+sudo zypper install jq
+clear
 elif [[ ! -z $PACMAN_CMD ]]; then
 sudo pacman -Syu
 sudo pacman install git
+clear
+sudo pacman install jq
 clear
 else
 echo "error cannot find distro..."
