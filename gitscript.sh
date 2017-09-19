@@ -155,6 +155,4 @@ mkdir -p github
 git_art
 distro_git
 ssh_download 
-#install_brew_osx
-#brew_check
 
