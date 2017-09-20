@@ -1,5 +1,4 @@
 #!/bin/bash
-
 OS_var=$(uname)
 YUM_CMD=$(which yum)
 APT_GET_CMD=$(which apt-get)
@@ -10,7 +9,6 @@ FEDORA_CMD=$(which dnf)
 #script art
 ###################################
 function git_art ()
-
 {
 clear
 echo "                                                                         
@@ -35,8 +33,6 @@ echo "
         ~~~~~~~~~~~~~~~~~~~~~~~~
          ~~~~~~~~~~~~~~~~~~~~~~~~"
                                                                 
-
-
 echo " Please hit enter to proceed.. "
 read
 }
@@ -74,30 +70,34 @@ if [[ ! -z $YUM_CMD ]]; then
 sudo yum install openssh-server
 sudo systemctl enable sshd.service
 sudo systemctl status sshd.service | grep active
+gitssh_auth
 elif [[ ! -z $APT_GET_CMD ]]; then
 sudo apt-get install openssh-server
 sudo service ssh start
 sudo service ssh status | grep active
+gitssh_auth
 elif [[ ! -z $ZYPPER_CMD ]]; then
 sudo zypper refresh
 sudo zypper up
 sudo zypper install openssh-server
-sudo service ssh start
-sudo service ssh status | grep active
+gitssh_auth
 elif [[ ! -z $PACMAN_CMD ]]; then
 sudo pacman -Syy
 sudo pacman -Sy openssh-server
 sudo service ssh start
 sudo service ssh status | grep active
+gitssh_auth
 elif [[ ! -z $FEDORA_CMD ]]; then
 sudo dnf install -y openssh-server
 sudo systemctl enable sshd.service
 sudo systemctl status sshd.service | grep active
+gitssh_auth
+elif [[ ! -z $OS_var ]]; then
+gitssh_auth
 else
 echo "error can't install ssh...Please install manually"
 exit 1;
 fi
-gitssh_auth
 }
 #######################################
 #Brew for Mac
@@ -138,6 +138,7 @@ dnf install jq
 elif [[ "$OS_var" == "Darwin" ]]; then
 install_brew_osx
 brew install git
+brew install jq
 else
 echo "error cannot find distro..."
 exit 1;
