@@ -33,7 +33,6 @@ echo "
         ~~~~~~~~~~~~~~~~~~~~~~~~
          ~~~~~~~~~~~~~~~~~~~~~~~~"
                                                                 
-echo " Please hit enter to proceed.. "
 read
 }
 ########################################
@@ -66,6 +65,7 @@ jq -n --arg t "$TITLE" --arg k "$KEY" '{title: $t, key: $k}' | curl --user "$USE
 function ssh_download ()
 {
 echo " Checking distro and installing ssh..."
+echo_spacer
 if [[ ! -z $YUM_CMD ]]; then
 sudo yum install openssh-server
 sudo systemctl enable sshd.service
@@ -144,8 +144,9 @@ echo "error cannot find distro..."
 exit 1;
 fi
 clear
-echo " A folder named github will now be created in the Documents directory. It is recommendedto use this folder to organize all your github projects and git clones. Hit enter to continue.."
+echo " A folder named github will now be created in the Documents directory. It is recommended to use this folder to organize all your github projects and git clones. Hit enter to continue.."
 read
+echo_spacer
 cd ~
 cd Documents 
 mkdir -p github
