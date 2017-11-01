@@ -5,6 +5,10 @@ Bash script that installs github for multiple linux distros and ssh setup with G
 Note: if wget does not work you may need to install it depending on distro.
 ex: apt-get install wget
 
+Note: You will also need curl installed. ex: sudo apt-get install curl
+
+Please make sure that you create a Gthub user account first before running this script.
+
 
 wget https://raw.githubusercontent.com/JohnZombie/github-installation-script/master/gitscript.sh
 
