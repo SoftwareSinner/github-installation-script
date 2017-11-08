@@ -1,20 +1,20 @@
 # github-installation-script
-Bash script that installs github for multiple linux distros and ssh setup with Github
 
-1. Copy and paste below link in your terminal. Make sure you are in the directory you want to run this in.
-Note: if wget does not work you may need to install it depending on distro.
-ex: apt-get install wget
+Bash script that installs github for multiple linux distros and generates ssh keys to connect with Github
 
-Note: You will also need curl installed. ex: sudo apt-get install curl
-
-Please make sure that you create a Gthub user account first before running this script.
+1. Copy and paste below command with link in your terminal window. Make sure you are in the directory you want to run this in.
 
 
 wget https://raw.githubusercontent.com/JohnZombie/github-installation-script/master/gitscript.sh
 
 
 
-2. now type cd github-installation-script
+
+NOTE: Please make sure that you have a github user account already created. You can visit https://github.com/join?source=header-home
+
+
+
+2. now type cd github-installation-script 
 
 
 
@@ -23,7 +23,6 @@ wget https://raw.githubusercontent.com/JohnZombie/github-installation-script/mas
 
 
 4. Next, run script by typing ./gitscript.sh
-
 
 
 
