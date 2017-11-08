@@ -117,14 +117,17 @@ read
 cd ~
 if [[ ! -z $YUM_CMD ]]; then
 sudo yum install update && sudo yum install upgrade
+sudo yum install curl
 sudo yum install git
 sudo yum install jq
 elif [[ ! -z $APT_GET_CMD ]]; then
 sudo apt-get update && sudo apt-get upgrade
+apt-get install curl
 sudo apt-get install git
 sudo apt-get install jq
 elif [[ ! -z $ZYPPER_CMD ]]; then
-sudo zypper up
+sudo zypper up 
+sudo zypper install curl
 sudo zypper install git
 sudo zypper install jq
 elif [[ ! -z $PACMAN_CMD ]]; then
@@ -133,6 +136,7 @@ sudo pacman -Sy git
 sudo pacman -Sy jq
 elif [[ ! -z $FEDORA_CMD ]]; then
 dnf update
+dnf install curl
 dnf install git
 dnf install jq
 elif [[ "$OS_var" == "Darwin" ]]; then
