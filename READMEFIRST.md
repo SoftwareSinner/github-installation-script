@@ -14,11 +14,12 @@ NOTE: Please make sure that you have a github user account already created. You 
 
 
 
-2. now type cd github-installation-script 
+2. now type : ls -al
+   this will list all current files in directory you are in, locate the file gitscript.sh and follow the below steps.
 
 
 
-3. Once downloaded, type: chmod +x gitscript.sh this will change give it write access.
+3. type: chmod +x gitscript.sh this will change give it write access.
 
 
 
@@ -26,7 +27,7 @@ NOTE: Please make sure that you have a github user account already created. You 
 
 
 
-Note: This only runs on linux and Mac OSX.
+Note: This only runs on linux based systems and Mac OSX.
 
 If you have two factor authentication setup with github this script may not run for you.
 
