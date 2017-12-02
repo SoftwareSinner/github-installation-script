@@ -68,7 +68,8 @@ echo " Checking distro and installing ssh..."
 echo_spacer
 if [[ ! -z $YUM_CMD ]]; then
 sudo yum install openssh-server
-sudo systemctl enable sshd.service
+sudo systemctl start sshd
+sudo systemctl restart sshd
 sudo systemctl status sshd.service | grep active
 gitssh_auth
 elif [[ ! -z $APT_GET_CMD ]]; then
@@ -83,13 +84,17 @@ sudo zypper install openssh-server
 gitssh_auth
 elif [[ ! -z $PACMAN_CMD ]]; then
 sudo pacman -Syy
-sudo pacman -Sy openssh-server
-sudo service ssh start
-sudo service ssh status | grep active
+sudo pacman -S openssh
+sudo systemctl start sshd.socket
+sudo systemctl enable sshd.socket
+sudo systemctl start sshd
+sudo systemctl restart sshd
+sudo systemctl status sshd.service | grep active
 gitssh_auth
 elif [[ ! -z $FEDORA_CMD ]]; then
 sudo dnf install -y openssh-server
 sudo systemctl enable sshd.service
+sudo systemctl restart sshd
 sudo systemctl status sshd.service | grep active
 gitssh_auth
 elif [[ ! -z $OS_var ]]; then
