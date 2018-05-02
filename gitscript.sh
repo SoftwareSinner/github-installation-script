@@ -1,11 +1,14 @@
 #!/bin/bash
 
+###########################
+#Package Manager checks
+##########################
 OS_var=$(uname)
 YUM_CMD=$(which yum)
 APT_GET_CMD=$(which apt-get)
 ZYPPER_CMD=$(which zypper)
 PACMAN_CMD=$(which pacman)
-FEDORA_CMD=$(which dnf)
+DNF_CMD=$(which dnf)
 ####################################
 #script art
 ###################################
@@ -91,7 +94,7 @@ sudo systemctl start sshd
 sudo systemctl restart sshd
 sudo systemctl status sshd.service | grep active
 gitssh_auth
-elif [[ ! -z $FEDORA_CMD ]]; then
+elif [[ ! -z $DNF_CMD ]]; then
 sudo dnf install -y openssh-server
 sudo systemctl enable sshd.service
 sudo systemctl restart sshd
@@ -124,6 +127,7 @@ if [[ ! -z $YUM_CMD ]]; then
 sudo yum install update && sudo yum install upgrade
 sudo yum install curl
 sudo yum install git
+yum install -y epel-release
 sudo yum install jq
 elif [[ ! -z $APT_GET_CMD ]]; then
 sudo apt-get update && sudo apt-get upgrade
@@ -139,7 +143,7 @@ elif [[ ! -z $PACMAN_CMD ]]; then
 sudo pacman -Syu
 sudo pacman -Sy git
 sudo pacman -Sy jq
-elif [[ ! -z $FEDORA_CMD ]]; then
+elif [[ ! -z $DNF_CMD ]]; then
 dnf update
 dnf install curl
 dnf install git
