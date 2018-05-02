@@ -1,4 +1,5 @@
 #!/bin/bash
+
 OS_var=$(uname)
 YUM_CMD=$(which yum)
 APT_GET_CMD=$(which apt-get)
@@ -108,7 +109,7 @@ fi
 #######################################
 function install_brew_osx() 
 {
-echo "Now installing brew for OSX"
+echo "Now installing brew for OSX.."
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 }
 ######################
@@ -116,7 +117,7 @@ echo "Now installing brew for OSX"
 ####################
 function distro_git ()
 {
-echo " Hit enter to install Github. This will install in the home directory."
+echo " [*] Hit enter to install Github. This will install in your home directory. "
 read
 cd ~
 if [[ ! -z $YUM_CMD ]]; then
